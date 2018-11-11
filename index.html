@@ -17,6 +17,7 @@
     // use lodash in no conflict mode
     var objectList = [];
     var typeDataAttributes = {};
+    var objectData = {};
     var _ = _.noConflict();
     var socket = io.connect('http://localhost:3001');
     socket.on('connect', function(data) {
@@ -29,18 +30,21 @@
         var typeKeys = _.keys(data);
         _.forEach(typeKeys, (typeKey) => {
             var objectKeys = _.keys(data[typeKey]);
-            var objCount = _.size(objectKeys);
             typeDataAttributes[typeKey] = data[typeKey][0]['dataAttribute'];
             _.forEach(objectKeys, (objectKey) => {
                 var object = data[typeKey][objectKey];
                 objectList.push(object.identifier);
+                objectData[object.identifier] = [];
             });
         });
     });
     socket.on('broad', function(data) {
         var name = data.identifier;
         var value = data[data.dataAttribute];
+        var obj = objectData[name];
+        obj.push(value);
         $('#raw_data').append(name + " " + value + "<br/>");
+        $('#raw_data').append(obj.toString() + "<br/>");
     });
 </script>
 </body>
