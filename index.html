@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/lodash/lodash.min.js"></script>
+</head>
+<body>
+<h1>Sigmoid Fuzzer</h1>
+<form id="control_form">
+    <input type="button" value="Start" onclick="window.location.href='http://localhost:3001/start'">
+    <input type="button" value="Stop" onclick="window.location.href='http://localhost:3001/stop'">
+</form>
+<div id="object_defs"></div>
+<div id="raw_data"></div>
+<script>
+    // use lodash in no conflict mode
+    var _ = _.noConflict();
+    var socket = io.connect('http://localhost:3001');
+    socket.on('connect', function(data) {
+        socket.emit('join', 'Hello Hello');
+    });
+    socket.on('greet', function(data) {
+        $('#raw_data').append(data + "<br/>");
+    });
+    socket.on('prepare', function(data) {
+        var typeKeys = _.keys(data);
+        _.forEach(typeKeys, (typeKey) => {
+            var objectKeys = _.keys(data[typeKey]);
+            _.forEach(objectKeys, (objectKey) => {
+                var object = data[typeKey][objectKey];
+                $('#raw_data').append(object.identifier + "<br/>");
+            });
+
+        });
+
+    });
+    socket.on('broad', function(data) {
+        var name = data.identifier;
+        var value = data[data.dataAttribute];
+        $('#raw_data').append(name + " " + value + "<br/>");
+    });
+</script>
+</body>
+</html>
