@@ -10,12 +10,10 @@
     can be customized.
 */
 
+const roundMe = require('./../../utilities/rounding.js').roundMe;
+
 const sigmoid = (t) => {
     return 1 / (1 + Math.pow(Math.E, -t));
-}
-
-const roundMe = (me) => {
-    return Math.round(me * 10000) / 10000;
 }
 
 function* sigmoidGenerator(amplitude, incrementor, rising=true) {

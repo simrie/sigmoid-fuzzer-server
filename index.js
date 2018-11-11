@@ -28,7 +28,6 @@ _.forEach(_.range(0, 3), (key) => {
     ips[key] = create('ip');
 });
 
-
 // Express app setup
 app.use(express.static(__dirname + '/node_modules'));
 
@@ -76,7 +75,7 @@ io.on('connection', function(client) {
 // Tell the server what port to run on
 server.listen(port);
 
-
+// Open the display page in a browser
 try {
     opn(url);
 } catch (e) {
