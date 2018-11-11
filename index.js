@@ -32,7 +32,7 @@ _.forEach(_.range(0, 3), (key) => {
 app.use(express.static(__dirname + '/node_modules'));
 
 app.get('/', function(req, res,next) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/displayPage/index.html');
 });
 
 app.get('/start', function(req, res,next) {

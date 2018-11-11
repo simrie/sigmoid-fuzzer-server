@@ -1,9 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <script src="/jquery/dist/jquery.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/lodash/lodash.min.js"></script>
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="lodash/lodash.min.js"></script>
+    <script src="d3/dist/d3.js"></script>
+    <style link rel="stylesheet" href="./line.css">
+    </style>
 </head>
 <body>
 <h1>Sigmoid Fuzzer</h1>
@@ -12,6 +15,7 @@
     <input type="button" value="Stop" onclick="window.location.href='http://localhost:3001/stop'">
 </form>
 <div id="object_defs"></div>
+<div id="lineGraph"></div>
 <div id="raw_data"></div>
 <script>
     // use lodash in no conflict mode
@@ -44,7 +48,6 @@
         var obj = objectData[name];
         obj.push(value);
         $('#raw_data').append(name + " " + value + "<br/>");
-        $('#raw_data').append(obj.toString() + "<br/>");
     });
 </script>
 </body>
