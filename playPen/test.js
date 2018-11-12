@@ -1,4 +1,9 @@
-const create = require('./fakerObjects/dataFakerCreator.js');
+/*
+    Play area for Developer
+ */
+
+
+const create = require('../fakerObjects/dataFakerCreator.js');
 const _ = require('lodash');
 
 const stocks = [];
