@@ -4,31 +4,98 @@
     <script src="jquery/dist/jquery.js"></script>
     <script src="socket.io/socket.io.js"></script>
     <script src="lodash/lodash.min.js"></script>
-    <script src="d3/dist/d3.js"></script>
-    <style link rel="stylesheet" href="./line.css">
-    </style>
+    <script src="d3/dist/d3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/line.css">
 </head>
 <body>
 <h1>Sigmoid Fuzzer</h1>
+<div id="greeting"></div>
 <form id="control_form">
-    <input type="button" value="Start" onclick="window.location.href='http://localhost:3001/start'">
-    <input type="button" value="Stop" onclick="window.location.href='http://localhost:3001/stop'">
+    <input type="button" class="button" value="Start" onclick="window.location.href='http://localhost:3001/start'">
+    <input type="button" class="button" value="Stop" onclick="window.location.href='http://localhost:3001/stop'">
 </form>
-<div id="object_defs"></div>
-<div id="lineGraph"></div>
-<div id="raw_data"></div>
 <script>
-    // use lodash in no conflict mode
     var objectList = [];
     var typeDataAttributes = {};
     var objectData = {};
+    var objectSvg = {};
     var _ = _.noConflict();
     var socket = io.connect('http://localhost:3001');
+
+    // d3 graph stuff
+    // Define attributes common to each graph
+    // Set the dimensions of the canvas / graph
+    var margin = {top: 30, right: 20, bottom: 30, left: 50},
+        width = 800 - margin.left - margin.right,
+        height = 250 - margin.top - margin.bottom;
+
+    // Set the ranges
+    var x = d3.scaleLinear().rangeRound([0, width]);
+    var y = d3.scaleLinear().rangeRound([height, 0]);
+
+    // Define the axes
+    var xAxis = d3.axisBottom(x).ticks(5);
+    var yAxis = d3.axisLeft(y).ticks(5);
+
+    function newSvg() {
+        var svg = d3.select('body')
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+        return svg;
+    };
+
+    function plotLines(dataSet, name) {
+        var svg = objectSvg[name];
+        var data = [];
+        dataSet.forEach(function(value, key) {
+            var d = { key, value };
+            data.push(d);
+        });
+
+        // Scale the range of the data
+        x.domain(d3.extent(data, function(d) { return d.key; }));
+        y.domain(d3.extent(data, function(d) { return d.value; }));
+
+        svg.selectAll("*").remove();
+        svg.selectAll(".x.axis").remove();
+
+        // Define the line
+        var line = d3.line()
+            .x(function(d) { return x(d.key); })
+            .y(function(d) { return y(d.value); });
+
+        // Add the line path.
+        svg.append("path")
+            .attr("class", "line")
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", 3)
+            .attr("d", line(data));
+
+        // Add the X Axis
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        // Add the Y Axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+    };
+
+    // Socket.io listeners
     socket.on('connect', function(data) {
         socket.emit('join', 'Hello Hello');
     });
     socket.on('greet', function(data) {
-        $('#raw_data').append(data + "<br/>");
+        $('#greeting').append(data + "<br/>");
     });
     socket.on('prepare', function(data) {
         var typeKeys = _.keys(data);
@@ -39,16 +106,18 @@
                 var object = data[typeKey][objectKey];
                 objectList.push(object.identifier);
                 objectData[object.identifier] = [];
+                objectSvg[object.identifier] = newSvg();
             });
         });
     });
     socket.on('broad', function(data) {
         var name = data.identifier;
         var value = data[data.dataAttribute];
-        var obj = objectData[name];
-        obj.push(value);
-        $('#raw_data').append(name + " " + value + "<br/>");
+        var dataArray = objectData[name];
+        dataArray.push(value);
+        plotLines(dataArray, name);
     });
+
 </script>
 </body>
 </html>

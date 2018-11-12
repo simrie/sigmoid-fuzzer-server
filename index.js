@@ -1,5 +1,17 @@
 'use strict'
 
+/*
+    Start Express server and add socket.io to it.
+    Define Faker objects, each with a wave generator.
+    Add a default, start and stop endpoint to Express,
+    where the start begins emitting and updated
+    Faker objects with generated numeric data,
+    and the stop pauses the generation.
+    Open a client html page in a browser so the
+    socket.io connection can be established and the
+    generated data can be displayed.
+*/
+
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -13,7 +25,7 @@ const url = 'http://localhost:' + port;
 const stocks = [];
 const ips = [];
 const intervals = [];
-const millisecs = 1000;
+const millisecs = 1500;
 const updateObject = (item) => {
     const data = item.dataAttribute;
     const val = item.generator.next();
@@ -30,8 +42,9 @@ _.forEach(_.range(0, 3), (key) => {
 
 // Express app setup
 app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/displayPage'));
 
-app.get('/', function(req, res,next) {
+app.get('/', function(req, res, next) {
     res.sendFile(__dirname + '/displayPage/index.html');
 });
 
@@ -50,13 +63,12 @@ app.get('/stop', function(req, res,next) {
     console.log('data streaming has stopped');
 });
 
-//socket.io server setup
-
+// socket.io setup
 io.on('connection', function(client) {
     console.log('Client connected...');
     client.on('join', function(data) {
         console.log('join data received ' + data);
-        client.emit('greet', 'Hello from server');
+        client.emit('greet', 'Socket.io connection established');
         const setup = {
             stocks,
             ips
