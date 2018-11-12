@@ -25,13 +25,19 @@ const url = 'http://localhost:' + port;
 const stocks = [];
 const ips = [];
 const intervals = [];
-const millisecs = 1500;
+const millisecs = 1000;
 const updateObject = (item) => {
     const data = item.dataAttribute;
     const val = item.generator.next();
     item[data] = val.value;
     console.log(item);
     io.emit('broad', item);
+};
+const clearIntervals = () => {
+    _.forEach(intervals, (interval) => {
+        clearInterval(interval);
+    });
+    console.log("intervals cleared");
 };
 
 _.forEach(_.range(0, 3), (key) => {
@@ -57,9 +63,7 @@ app.get('/start', function(req, res,next) {
     });
 });
 app.get('/stop', function(req, res,next) {
-    _.forEach(intervals, (interval) => {
-        clearInterval(interval);
-    });
+    clearIntervals();
     console.log('data streaming has stopped');
 });
 
@@ -81,6 +85,7 @@ io.on('connection', function(client) {
     });
     client.on('disconnect', function(){
         console.log('disconnected');
+        clearIntervals();
     });
 });
 
