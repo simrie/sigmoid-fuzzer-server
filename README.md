@@ -30,9 +30,13 @@ Each objects's data is plotted on a d3 line graph which rescales itself into the
 
 In the initial proof-of-concept iteration no provision has been made to age out the data, so leaving this running for a long time could crash a browser.
  
-## Wave Functions
+## Faker Objects and their Wave Functions
 
-There are two generator functions that create the wave data.
+Faker objects are created using the Faker library's built-in types.
+
+Each Faker object then gets assigned a wave data generator.
+
+Each wave data generator is actually composed of two generators, where one calls the other.
 
 The sigmoidGenerator function accepts two parameters: amplitude and incrementor.
 
@@ -40,15 +44,14 @@ The sigmoidGenerator calls a normal mathematical sigmoid function with a value t
 
 The generatorFactory creates a generator function by accepting three arguments: startValue, magnifier, and waveFunction.
 
-The startValue used here is the random number that was assigned by Faker when the object was created.
-
-The magnifier is a multiplier for the value returned by the waveFunction, which is the third argument.
+The startValue is the random number that the Faker object got when it was created.
 
 The waveFunction would be the sigmoidFunction created for the object.
 
-This means that each Faker object is assigned a wave generation function that is actually itself calling a generator function.  
+The magnifier is a multiplier for the value returned by the waveFunction.
 
-The amplitude, magnifier and increment numbers are random values so each object should get a wave pattern that is different from the others but still fairly regular.
+The amplitude, magnifier and increment numbers are random values so each object should get a wave pattern that is different from the others.
+
 
 
 
