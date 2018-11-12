@@ -30,7 +30,7 @@ const create = (type) => {
 
     // get start value from faker object
     const startValue = roundSmaller(fakeObject[dataAttribute]);
-    const amplitude = randomFraction();
+    const amplitude = randomLowInteger();
     const incrementor = randomFraction();
     const magnifier = randomLowInteger();
 

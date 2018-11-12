@@ -28,7 +28,7 @@ function* sigmoidGenerator(amplitude, incrementor, rising=true) {
             t = t - incrementor;
         };
         // switch direction if t hits a high or low point
-        if (Math.abs(t) == Math.abs(amplitude)) {
+        if (Math.abs(t) >= Math.abs(amplitude)) {
             inc = !inc;
         };
         let s = sigmoid(t);
