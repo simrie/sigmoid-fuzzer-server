@@ -12,12 +12,12 @@ const randomLowInteger = () => {
     return Math.floor(Math.random()*3+1);
 };
 
-const randomFraction = (val) => {
-    return Math.round(val/2, 2);
+const randomFraction = () => {
+    return (randomLowInteger()/3 * 100)/100;
 };
 
 const roundSmaller = (val) => {
-    return Math.round(val * 10000) / 10000;
+    return Math.round(val * 10000) / 1000000;
 };
 
 const rounding = {
