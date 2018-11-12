@@ -30,8 +30,8 @@ const create = (type) => {
 
     // get start value from faker object
     const startValue = roundSmaller(fakeObject[dataAttribute]);
-    const amplitude = randomLowInteger();
-    const incrementor = randomFraction(amplitude);
+    const amplitude = randomFraction();
+    const incrementor = randomFraction();
     const magnifier = randomLowInteger();
 
     // create a customized sigmoid wave function

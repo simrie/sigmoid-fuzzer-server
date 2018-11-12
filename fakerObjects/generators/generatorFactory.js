@@ -13,10 +13,7 @@
     going to be of type sigmoid.
  */
 
-const roundMe = (me) => {
-    return Math.round(me * 10000) / 10000;
-}
-//const roundMe = require('./sigmoidGenerator').roundMe;
+const roundMe = require('./../../utilities/rounding.js').roundMe;
 
 function* nextValue(startValue, magnifier, waveFunction, wobblePoint=0.5) {
     let value;
@@ -31,9 +28,9 @@ function* nextValue(startValue, magnifier, waveFunction, wobblePoint=0.5) {
         let valueChange = roundMe(newNext * magnifier);
         // increase or decrease the value
         if (lastNewNext < newNext) {
-            value = value + valueChange;
+            value = startValue + valueChange;
         } else {
-            value = value - valueChange;
+            value = startValue - valueChange;
         }
         lastNewNext = newNext;
         yield roundMe(value);
