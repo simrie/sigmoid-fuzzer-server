@@ -16,9 +16,10 @@
 </form>
 <script>
     var objectList = [];
-    var typeDataAttributes = {};
+    var objectType = {};
     var objectData = {};
     var objectSvg = {};
+    var typeDataAttributes = {};
     var _ = _.noConflict();
     var socket = io.connect('http://localhost:3001');
 
@@ -51,6 +52,10 @@
     function plotLines(dataSet, name) {
         var svg = objectSvg[name];
         var data = [];
+        var type = objectType[name];
+        var dataAttribute = typeDataAttributes[type];
+        var title = name + ' ' + dataAttribute;
+
         dataSet.forEach(function(value, key) {
             var d = { key, value };
             data.push(d);
@@ -88,6 +93,15 @@
         svg.append("g")
             .attr("class", "y axis")
             .call(yAxis);
+
+        // Add a title
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text(title);
     };
 
     // Socket.io listeners
@@ -105,6 +119,7 @@
             _.forEach(objectKeys, (objectKey) => {
                 var object = data[typeKey][objectKey];
                 objectList.push(object.identifier);
+                objectType[object.identifier] = typeKey;
                 objectData[object.identifier] = [];
                 objectSvg[object.identifier] = newSvg();
             });
