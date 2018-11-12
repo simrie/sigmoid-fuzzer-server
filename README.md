@@ -14,6 +14,8 @@ The data is emitted as a stream, which may be useful as "fuzzed" testing data or
 
 ## Installation
 
+    git clone https://github.com/simrie/sigmoid-fuzzer-server/tree/master
+    
     npm install
     
     npm start
