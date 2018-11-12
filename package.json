@@ -4,7 +4,7 @@
   "description": "Generate data according to a sigmoid wave pattern",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "dependencies": {
     "d3": "^5.7.0",
