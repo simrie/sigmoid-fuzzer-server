@@ -33,6 +33,7 @@ const updateObject = (item) => {
     console.log(item);
     io.emit('broad', item);
 };
+
 const clearIntervals = () => {
     _.forEach(intervals, (interval) => {
         clearInterval(interval);
@@ -40,11 +41,18 @@ const clearIntervals = () => {
     console.log("intervals cleared");
 };
 
-_.forEach(_.range(0, 3), (key) => {
-    console.log(key);
-    stocks[key] = create('stock');
-    ips[key] = create('ip');
-});
+const createFakeObjects = () => {
+    stocks.length = 0;
+    ips.length = 0;
+    _.forEach(_.range(0, 3), (key) => {
+        stocks[key] = create('stock');
+        ips[key] = create('ip');
+    });
+    console.log('Fake objects created');
+};
+
+createFakeObjects();
+
 
 // Express app setup
 app.use(express.static(__dirname + '/node_modules'));
