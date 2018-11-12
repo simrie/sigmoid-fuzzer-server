@@ -10,6 +10,16 @@
 <body>
 <h1>Sigmoid Fuzzer</h1>
 <div id="greeting"></div>
+<h3>Click "Start" to generate wave data for objects created using the Faker library.  Click "Stop" to pause.</h3>
+<p>
+Each Faker object has its own wave pattern, but all are variations on sigmoid curve output.
+A sigmoid curve fluctuates between 0 and 1.
+</p>
+<p>
+This may be useful if "fuzzed" testing data or neural network training data
+to represent fairly regular data fluctuations that don't drop below zero.
+</p>
+
 <form id="control_form">
     <input type="button" class="button" value="Start" onclick="window.location.href='http://localhost:3001/start'">
     <input type="button" class="button" value="Stop" onclick="window.location.href='http://localhost:3001/stop'">
