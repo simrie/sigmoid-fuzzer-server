@@ -13,7 +13,7 @@
     "jquery": "^3.5.0",
     "lodash": "^4.17.10",
     "opn": "^5.4.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.4.0"
   },
   "keywords": [
     "sigmoid",
