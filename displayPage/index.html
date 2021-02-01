@@ -25,8 +25,8 @@ to represent fairly regular data fluctuations that don't drop below zero.
 </p>
 
 <form id="control_form">
-    <input type="button" class="button" value="Start" onclick="window.location.href='http://localhost:3001/start'">
-    <input type="button" class="button" value="Stop" onclick="window.location.href='http://localhost:3001/stop'">
+    <input type="button" class="button" value="Start" onclick="window.location.href=window.location.href + 'start'">
+    <input type="button" class="button" value="Stop" onclick="window.location.href=window.location.href + 'stop'">
 </form>
 <script>
     var objectList = [];
@@ -35,7 +35,9 @@ to represent fairly regular data fluctuations that don't drop below zero.
     var objectSvg = {};
     var typeDataAttributes = {};
     var _ = _.noConflict();
-    var socket = io.connect('http://localhost:3001');
+    var connectAddress = window.location;
+    console.log("socket.io " + connectAddress)
+    var socket = io.connect(connectAddress);
 
     // d3 graph stuff
     // Define attributes common to each graph
