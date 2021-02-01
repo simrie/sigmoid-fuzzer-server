@@ -7,6 +7,9 @@
     <script src="d3/dist/d3.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/line.css">
 </head>
+<script>
+    var hostloc=window.location.href
+</script>
 <body>
 <h1>Sigmoid Fuzzer</h1>
 <div id="greeting"></div>
@@ -25,8 +28,8 @@ to represent fairly regular data fluctuations that don't drop below zero.
 </p>
 
 <form id="control_form">
-    <input type="button" class="button" value="Start" onclick="window.location.href=window.location.href + 'start'">
-    <input type="button" class="button" value="Stop" onclick="window.location.href=window.location.href + 'stop'">
+    <input type="button" class="button" value="Start" onclick="window.location.href=hostloc + 'start'">
+    <input type="button" class="button" value="Stop" onclick="window.location.href=hostloc + 'stop'">
 </form>
 <script>
     var objectList = [];
@@ -35,7 +38,8 @@ to represent fairly regular data fluctuations that don't drop below zero.
     var objectSvg = {};
     var typeDataAttributes = {};
     var _ = _.noConflict();
-    var connectAddress = window.location;
+    //var connectAddress = "https://127.0.0.1:3001";
+    var connectAddress = hostloc;
     console.log("socket.io " + connectAddress)
     var socket = io.connect(connectAddress);
 
