@@ -21,7 +21,7 @@ const _ = require('lodash');
 const create = require('./fakerObjects/dataFakerCreator.js');
 
 const port = 3001;
-const url = 'http://localhost:' + port;
+const url = "https://127.0.0.1:" + port;
 const stocks = [];
 const ips = [];
 const intervals = [];
@@ -63,6 +63,7 @@ app.get('/', function(req, res, next) {
 });
 
 app.get('/start', function(req, res,next) {
+    console.log("/start was clicked")
     _.forEach(stocks, (key) => {
         intervals.push(setInterval(updateObject, millisecs, key));
     });
@@ -71,6 +72,7 @@ app.get('/start', function(req, res,next) {
     });
 });
 app.get('/stop', function(req, res,next) {
+    console.log("/stop was clicked")
     clearIntervals();
     console.log('data streaming has stopped');
 });
